@@ -2,6 +2,7 @@ package com.example.pwta_lab_03;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -9,6 +10,7 @@ import android.hardware.SensorManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import java.sql.Time;
@@ -44,6 +46,12 @@ public class MainActivity extends AppCompatActivity
         _faceY = (TextView) findViewById(R.id.faceYTV);
         _faceZ = (TextView) findViewById(R.id.faceZTV);
         InitializeAccelerationSensor();
+    }
+
+    public void openDrawActivity(View view)
+    {
+        Intent drawAct = new Intent(this, DrawActivity.class);
+        MainActivity.this.startActivity(drawAct);
     }
 
     @Override
