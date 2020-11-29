@@ -6,10 +6,12 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 
+import java.sql.Time;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -24,6 +26,11 @@ public class MainActivity extends AppCompatActivity
     private float[] _values = null;
     private TextView _outputTV;
     private TextView _shakeTV;
+    private TextView _faceX;
+    private TextView _faceY;
+    private TextView _faceZ;
+
+    private float time = 0f;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -33,6 +40,9 @@ public class MainActivity extends AppCompatActivity
 
         _shakeTV = (TextView) findViewById(R.id.shakeTV);
         _outputTV = (TextView) findViewById(R.id.outputTV);
+        _faceX = (TextView) findViewById(R.id.faceXTV);
+        _faceY = (TextView) findViewById(R.id.faceYTV);
+        _faceZ = (TextView) findViewById(R.id.faceZTV);
         InitializeAccelerationSensor();
     }
 
@@ -43,7 +53,7 @@ public class MainActivity extends AppCompatActivity
         if (_accSensor != null)
         {
             _sm.unregisterListener(_observer);
-//            StopShakeCheckTimer();
+            StopShakeCheckTimer();
         }
     }
 
@@ -54,7 +64,7 @@ public class MainActivity extends AppCompatActivity
         if (_accSensor != null)
         {
             _sm.registerListener(_observer, _accSensor, SensorManager.SENSOR_DELAY_GAME);
-//            StartShakeCheckTimer();
+            StartShakeCheckTimer();
         }
     }
 
@@ -62,14 +72,15 @@ public class MainActivity extends AppCompatActivity
     {
         _lastValues = _values;
         _values = values;
+        UpdateFaceValue();
         if(_lastValues != null && AreValuesChanged())
         {
-//            StopShakeCheckTimer();
+            StopShakeCheckTimer();
             _shakeTV.setText("Shakes!");
         }
         else
         {
-//            StartShakeCheckTimer();
+            StartShakeCheckTimer();
         }
         String tempString = "";
         for(int i = 0; i < values.length; i++)
@@ -77,6 +88,21 @@ public class MainActivity extends AppCompatActivity
             tempString += "v[" + i + "] = " + _values[i] + "; ";
         }
         _outputTV.setText(tempString);
+    }
+
+    private void UpdateFaceValue()
+    {
+        if(_values[0] > 2f) _faceX.setText("TiltedLeft");
+        else if(_values[0] < 2f) _faceX.setText("TiltedRight");
+        else _faceX.setText("-");
+
+        if(_values[1] > 2f) _faceY.setText("ToMe");
+        else if(_values[1] < 2f) _faceY.setText("FromMe");
+        else _faceY.setText("-");
+
+        if(_values[2] > 2f) _faceZ.setText("FaceUp");
+        else if(_values[2] < 2f) _faceZ.setText("FaceDown");
+        else _faceZ.setText("-");
     }
 
     private boolean AreValuesChanged()
@@ -98,21 +124,21 @@ public class MainActivity extends AppCompatActivity
 
     private void StopShakeCheckTimer()
     {
-        _timer.cancel();
+//        _timer.cancel();
     }
 
     private void StartShakeCheckTimer()
     {
-        _timer = new Timer();
-        _timer.scheduleAtFixedRate(new TimerTask()
-        {
-            @Override
-            public void run()
-            {
-                _shakeTV.setText(("NoShake"));
-            }
-        }, 5*1000, 5*1000); // 0 - time before first execution, 10*1000 - repeating of all subsequent executions
-
+//        _timer = new Timer();
+//        _timer.scheduleAtFixedRate(new TimerTask()
+//        {
+//            @Override
+//            public void run()
+//            {
+//                time++;
+//                _shakeTV.setText("" + time);
+//            }
+//        }, 0, 1*1000); // 0 - time before first execution, 10*1000 - repeating of all subsequent executions
     }
 
     private void TestSensors()
@@ -148,7 +174,9 @@ class SensorObserver implements SensorEventListener
         if(event.sensor.getType() == Sensor.TYPE_ACCELEROMETER)
         {
             if(parentActivity != null)
+            {
                 parentActivity.UpdateSensorValues(event.values.clone());
+            }
         }
     }
 

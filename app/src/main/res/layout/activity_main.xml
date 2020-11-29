@@ -12,17 +12,39 @@
         android:layout_height="wrap_content"
         android:text="shakeTV"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/faceTV"
+        app:layout_constraintBottom_toTopOf="@+id/faceXTV"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         />
 
     <TextView
-        android:id="@+id/faceTV"
+        android:id="@+id/faceXTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="shakeTV"
-        app:layout_constraintTop_toTopOf="parent"
+        android:text="faceX"
+        app:layout_constraintTop_toBottomOf="@+id/shakeTV"
+        app:layout_constraintBottom_toTopOf="@+id/faceYTV"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/faceYTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="faceY"
+        app:layout_constraintTop_toBottomOf="@+id/faceXTV"
+        app:layout_constraintBottom_toTopOf="@+id/faceZTV"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/faceZTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="faceZ"
+        app:layout_constraintTop_toBottomOf="@+id/faceYTV"
         app:layout_constraintBottom_toTopOf="@+id/outputTV"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -33,10 +55,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="outputTV"
-        app:layout_constraintTop_toBottomOf="@+id/faceTV"
+        app:layout_constraintTop_toBottomOf="@+id/faceZTV"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         />
+
+    
 
 </androidx.constraintlayout.widget.ConstraintLayout>
